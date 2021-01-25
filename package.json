@@ -1,8 +1,8 @@
 {
-  "name": "quotes-api-men",
+  "name": "quotes-mern",
   "version": "1.0.0",
   "main": "app.js",
-  "repository": "git@github.com:Almazatun/quotes-api-men.git",
+  "repository": "git@github.com:Almazatun/quotes-mern.git",
   "author": "Almaz P",
   "license": "MIT",
   "dependencies": {
