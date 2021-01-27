@@ -2,7 +2,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
+//import files
+const Quotes = require('./routes/Quotes')
 
 //Create express app
 const app = express()
@@ -28,19 +31,22 @@ db.once('open', () => {
 
 //Middleware
 app.use(bodyParser.json())
+app.use(cors())
 
 //Routes
 app.get('/', ((req, res) => {
     res.send('Hello 🧒')
 }))
 
-const Quotes = require("./routes/Quotes")
-
+//Middleware
 app.use('/quotes', Quotes)
 
+//Port
+const PORT = process.env.PORT || 3010;
+
 //Starting server
-app.listen(3000, () => {
-    console.log("Listening on port 3000")
+app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`)
 })
 
 
