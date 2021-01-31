@@ -17,5 +17,5 @@ yarn install
 ```
 ### Compiles
 ```
-yarn statrt
+yarn start
 ```
