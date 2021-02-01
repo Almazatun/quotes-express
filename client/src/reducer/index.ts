@@ -1,10 +1,10 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import {quotesReducer} from "../components/Quotes";
 import thunkMiddleware from 'redux-thunk'
+import {postsReducer} from "../components/Posts";
 
 
 export const rootReducer = combineReducers({
-    quotes: quotesReducer
+    posts: postsReducer
 })
 
 export const store = configureStore({
