@@ -6,11 +6,10 @@ class UserController {
     async createUser(req, res) {
         const {userName, email, password} = req.body
         try {
-            // Make sure user doesnt already exist
+            // Make sure the user does not already exist in database storage
             const user = await User.findOne({userName}).exec() //Promise
             const userEmail = await User.findOne({email}).exec()
 
-            //Condition to check exist or not
             if (user) {
                 res.status(400).json({
                     errors: {
@@ -26,9 +25,9 @@ class UserController {
                     }
                 })
             } else {
-                //Create new User
+                //Create a new user
 
-                //Hashing
+                //Hashing password
                 const bcryptPassword = await bcrypt.hash(password, 12)
 
                 const newUser = new User({
@@ -57,33 +56,38 @@ class UserController {
         res.json(users)
     }
 
-    async SignIn (req, res) {
+    async SignIn(req, res) {
         const {userName, password} = req.body
 
+        //Make sure the user existed in the database
         const user = await User.findOne({userName})
-        const match = await bcrypt.compare(password, user.password)
 
         try {
-            if (!user) { // not exist
+            if (!user) {
                 res.status(404).json({
                     errors: {
                         message: 'User not found 👥',
                     }
                 })
-            } else if (!match) {
-                res.status(401).json({
-                    errors: {
-                        error: 'Wrong credentials 🆘',
-                        message: 'Please check it out your user name or password',
-                    }
-                })
             } else {
-                const token = generateToken(user)
+                //Make sure the user typed correct password
+                const match = await bcrypt.compare(password, user.password)
 
-                res.json({
-                    ...user._doc,
-                    token
-                })
+                //Unless the user password incorrect the user get error message
+                if (!match) {
+                    res.status(401).json({
+                        errors: {
+                            error: 'Wrong credentials 🆘',
+                            message: 'Please check your user name or password and try again',
+                        }
+                    })
+                } else {
+                    const token = generateToken(user)
+                    res.json({
+                        ...user._doc,
+                        token
+                    })
+                }
             }
         } catch (error) {
             res.status(500).json({
@@ -91,7 +95,6 @@ class UserController {
                 errors: {...error},
             })
         }
-
     }
 
     async deleteUser(req, res) {
