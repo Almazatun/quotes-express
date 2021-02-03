@@ -48,7 +48,8 @@ export const deletePostTC = createAsyncThunk<
     { dispatch: AppDispatchType, state: AppRootStateType,  rejectValue: ValidationErrors}
     >
 ('Posts/deletePost', async (param, thunkAPI) => {
-    //If use try catch statement mark need to setup catch return type
+
+    //If use try catch statement mark make sure that typed catch return type
     try {
         const res = await API.deletePost(param.postId)
         return {postId: res._id}
@@ -117,7 +118,7 @@ export interface PostsState {
     errors: string | null | undefined
 }
 
-interface ValidationErrors {
+export interface ValidationErrors {
     errorMessage: string
     field_errors?: Record<string, string>
 }
