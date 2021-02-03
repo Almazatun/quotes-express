@@ -1,14 +1,14 @@
-const User = require('../models/Users')
+const Users = require('../models/Users')
 const bcrypt = require('bcrypt')
 const generateToken = require('../utils/generateTokken')
 
-class UserController {
+class UsersController {
     async createUser(req, res) {
         const {userName, email, password} = req.body
         try {
             // Make sure the user does not already exist in database storage
-            const user = await User.findOne({userName}).exec() //Promise
-            const userEmail = await User.findOne({email}).exec()
+            const user = await Users.findOne({userName}).exec() //Promise
+            const userEmail = await Users.findOne({email}).exec()
 
             if (user) {
                 res.status(400).json({
@@ -30,7 +30,7 @@ class UserController {
                 //Hashing password
                 const bcryptPassword = await bcrypt.hash(password, 12)
 
-                const newUser = new User({
+                const newUser = new Users({
                     userName: userName,
                     email: email,
                     password: bcryptPassword,
@@ -52,7 +52,7 @@ class UserController {
     }
 
     async getUsers(req, res) {
-        const users = await User.find()
+        const users = await Users.find()
         res.json(users)
     }
 
@@ -60,7 +60,7 @@ class UserController {
         const {userName, password} = req.body
 
         //Make sure the user existed in the database
-        const user = await User.findOne({userName})
+        const user = await Users.findOne({userName})
 
         try {
             if (!user) {
@@ -99,7 +99,7 @@ class UserController {
 
     async deleteUser(req, res) {
         try {
-            const user = await User.findByIdAndDelete({_id: req.params.id})
+            const user = await Users.findByIdAndDelete({_id: req.params.id})
             if (user) {
                 res.json({
                     message: "User successfully deleted ✔"
@@ -118,4 +118,4 @@ class UserController {
     }
 }
 
-module.exports = new UserController()
+module.exports = new UsersController()

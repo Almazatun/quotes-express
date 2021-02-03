@@ -6,7 +6,7 @@ const cors = require('cors');
 
 //import files
 const Posts = require('./routes/Posts')
-const UserAuth = require('./routes/User')
+const Users = require('./routes/Users')
 
 //Create express app
 const app = express()
@@ -36,7 +36,7 @@ app.use(cors())
 
 //Routes || Middleware
 app.use('/posts', Posts)
-app.use('/users', UserAuth)
+app.use('/users', Users)
 
 //Port
 const PORT = process.env.PORT || 3010;

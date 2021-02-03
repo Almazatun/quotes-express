@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const UserController = require('../controller/User')
+const UsersController = require('../controller/Users')
 
 //Middlewares
 const registerInput = require('../helpers/user/registerInput')
@@ -12,9 +12,9 @@ const getUsersUrl = process.env.GET_USERS_URL || '/'
 const deleteUserUrl = process.env.DELETE_USER_URL || 'delete'
 
 
-router.post(signUpNewUserUrl, registerInput, UserController.createUser)
-router.get(getUsersUrl, UserController.getUsers)
-router.delete(`/${deleteUserUrl}/:id`, UserController.deleteUser)
-router.post(`/signIn`,signInInput,  UserController.SignIn)
+router.post(signUpNewUserUrl, registerInput, UsersController.createUser)
+router.get(getUsersUrl, UsersController.getUsers)
+router.delete(`/${deleteUserUrl}/:id`, UsersController.deleteUser)
+router.post(`/signIn`,signInInput,  UsersController.SignIn)
 
 module.exports = router
