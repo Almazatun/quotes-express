@@ -8,8 +8,8 @@ export const API = {
             return res.data
         })
     },
-    createPost(data: PostServe) {
-        return instance.post<PostServe>('posts/new/', data).then(res => res.data)
+    createPost(postBody: string) {
+        return instance.post<PostServe>('posts/new/', postBody).then(res => res.data)
     },
     deletePost(postId: string) {
         return instance.delete<PostServe>(`posts/delete/${postId}`).then(res => res.data)
@@ -17,7 +17,11 @@ export const API = {
     updatePost(postId: string, title: string,) {
         const data: { content: string } = {content: title}
         return instance.patch<PostServe>(`posts/update/${postId}`, data)
-    },
+    }
+}
+
+//Auth API
+export const API_AUTH = {
     logIn(data: LogInArguments){
         return instance.post<IUserServe>(`users/signIn/`, data).then(res => {
             return res.data
