@@ -12,6 +12,15 @@ $borderRadius: 8px;
   border-radius: 4px;
 }
 
+@mixin Errors () {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #f371d0;
+    padding: 6px;
+    border-radius: 4px;
+}
+
 .login_container {
   margin: auto;
   z-index: 20;
@@ -60,12 +69,7 @@ $borderRadius: 8px;
       }
     }
     .errors {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      background: #f371d0;
-      padding: 6px;
-      border-radius: 4px;
+     @include Errors();
     }
   }
 }

@@ -45,5 +45,10 @@ $borderRadius: 8px;
      @include Button();
     }
   }
+}
 
+.errors {
+  @include Errors();
+  width: 350px;
+  margin: 10px 0 0 0;
 }
