@@ -98,6 +98,7 @@ class LogInContainer extends Component<TProps, LogInContainerState> {
 
 
     render() {
+        if (this.props.isAuth) return <Redirect to={PAGES.POSTS}/>
         return this.state.redirect ? <Redirect to={PAGES.POSTS}/> : <LogIn
             userName={this.state.userName}
             password={this.state.password}
