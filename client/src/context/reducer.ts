@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {API, LogInArguments} from "../api/api";
+import {API_AUTH, LogInArguments} from "../api/api";
 import {AppDispatchType, AppRootStateType} from "../reducer";
 import {ValidationErrors} from "../components/Posts/reducer";
 import {AuthContextState, TOKEN} from "./AuthContext";
@@ -21,12 +21,12 @@ export const signInTC = createAsyncThunk<
 
     //If use try catch statement mark make sure that typed catch return type
     try {
-        const res = await API.logIn(param)
+        const res = await API_AUTH.logIn(param)
 
         //Saving token of the user in the Localstorage
         localStorage.setItem(TOKEN.IS_TOKEN, res.token)
 
-        return {user: res}
+        return { user: res }
     } catch (error) {
         return thunkAPI.rejectWithValue({errorMessage: error.message})
     }
@@ -43,10 +43,6 @@ export const slice = createSlice({
         signOut: (state, action: PayloadAction<User>) => {
             state.user = action.payload
             state.isAuth = false
-        },
-        signIn: (state, action: PayloadAction<User>) => {
-            state.user = action.payload
-            state.isAuth = true
         },
     },
     extraReducers: builder => {

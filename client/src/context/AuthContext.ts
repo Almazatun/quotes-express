@@ -24,8 +24,7 @@ if (localStorage.getItem(TOKEN.IS_TOKEN)) {
         const LocalStorageData: User = {
             _id: id,
             userName: userName,
-            email: email,
-            token: localStorage.getItem(TOKEN.IS_TOKEN) as string
+            email: email
         }
         AuthContextState.user = LocalStorageData
         AuthContextState.isAuth = true
