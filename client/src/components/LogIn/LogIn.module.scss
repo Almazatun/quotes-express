@@ -1,7 +1,18 @@
 $borderRadius: 8px;
+@mixin BoxShadow (){
+  box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
+}
+@mixin Button (){
+  width: 100%;
+  height: 36px;
+  font-size: 16px;
+  border: 0;
+  outline: none;
+  background: #6ed36b;
+  border-radius: 4px;
+}
 
 .login_container {
-  height: 100vh;
   margin: auto;
   z-index: 20;
   .login_form_container {
@@ -45,13 +56,7 @@ $borderRadius: 8px;
       width: 100%;
       margin: auto;
       button {
-        width: 100%;
-        height: 36px;
-        font-size: 16px;
-        border: 0;
-        outline: none;
-        background: #6ed36b;
-        border-radius: 4px;
+       @include Button();
       }
     }
     .errors {
