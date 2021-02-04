@@ -1,0 +1,9 @@
+$borderRadius: 8px;
+
+.write_post_container {
+  box-sizing: border-box;
+  height: 350px;
+  width: 600px;
+  background: #ffffff;
+  border-radius: $borderRadius;
+}
