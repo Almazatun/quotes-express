@@ -2,9 +2,10 @@ import React, {Component, Fragment} from 'react'
 import {AppRootStateType} from "../../../reducer";
 import {selectPosts, selectPostsError} from "./Selectors";
 import {connect, ConnectedProps} from 'react-redux';
-import { Posts } from '../../Posts/Posts';
-import { PostsState } from '../../Posts/reducer';
+import {Posts} from '../../Posts/Posts';
+import {PostsState} from '../../Posts/reducer';
 import {postsActions} from "../../Posts";
+import {WithAuthRedirect} from "../../../hoc/WithAuthRedirect/WithAuthRedirect";
 
 class PostsContainer extends Component<TProps, {}> {
     constructor(props: TProps) {
@@ -32,10 +33,13 @@ const mapStateToProps = (state: AppRootStateType): PostsState => {
     };
 };
 
-const {fetchPostsTC, createPostTC, deletePostTC, changePostRegStatus} = postsActions
+const {fetchPostsTC} = postsActions
 
-const connector = connect(mapStateToProps, {fetchPostsTC, createPostTC, deletePostTC, changePostRegStatus});
+const connector = connect(mapStateToProps, {fetchPostsTC});
 
+//Connect Type
 type TProps = ConnectedProps<typeof connector>;
 
-export default connector(PostsContainer);
+const WrappedPostsContainer =  WithAuthRedirect(PostsContainer)
+
+export default connector(WrappedPostsContainer);
