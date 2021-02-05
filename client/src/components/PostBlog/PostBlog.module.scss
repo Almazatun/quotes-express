@@ -1,0 +1,33 @@
+@import "src/components/LogIn/LogIn.module";
+
+.post_blog_container {
+  text-align: left;
+  width: 600px;
+  min-height: 200px;
+  margin: 0 0 20px 0;
+
+  .prev_location {
+    margin: 0 0 10px 0;
+    button {
+      @include Button();
+      width: auto;
+      background: #ec632c;
+    }
+  }
+
+  .post_blog_content {
+    min-height: 150px;
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+
+    h3 {
+      text-align: center;
+    }
+
+    .post_body {
+      width: 100%;
+      word-break: break-all;
+    }
+  }
+}

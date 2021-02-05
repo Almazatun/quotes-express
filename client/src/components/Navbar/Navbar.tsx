@@ -4,6 +4,7 @@ import style from './Navbar.module.scss'
 
 export enum PAGES {
     POSTS = '/',
+    POST = '/post',
     LOG_IN = '/logIn',
     WRITE_NEW_POST = '/writeNewPost'
 }
