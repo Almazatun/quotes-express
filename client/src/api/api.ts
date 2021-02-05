@@ -4,19 +4,19 @@ import {instance} from "../confirm/apiData";
 //API
 export const API = {
     getAllPosts() {
-        return instance.get<Array<PostServe>>('posts/').then(res => {
+        return instance.get<Array<ServerPost>>('posts/').then(res => {
             return res.data
         })
     },
     createPost(postBody: string) {
-        return instance.post<PostServe>('posts/new/', postBody).then(res => res.data)
+        return instance.post<ServerPost>('posts/new/', postBody).then(res => res.data)
     },
     deletePost(postId: string) {
-        return instance.delete<PostServe>(`posts/delete/${postId}`).then(res => res.data)
+        return instance.delete<ServerPost>(`posts/delete/${postId}`).then(res => res.data)
     },
     updatePost(postId: string, title: string,) {
         const data: { content: string } = {content: title}
-        return instance.patch<PostServe>(`posts/update/${postId}`, data)
+        return instance.patch<ServerPost>(`posts/update/${postId}`, data)
     }
 }
 
@@ -30,12 +30,12 @@ export const API_AUTH = {
 }
 
 //Types
-export interface PostServe {
+export interface ServerPost {
     _id: string
     body: string,
+    postTitle: string
     userName: string,
     createdAt: string,
-    user: string,
     __v?: number
 }
 
