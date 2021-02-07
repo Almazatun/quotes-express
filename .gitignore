@@ -20,4 +20,4 @@ bin-release/
 node_modules
 .idea
 /client/src/confirm/
-/config.js
+/src/config.ts
