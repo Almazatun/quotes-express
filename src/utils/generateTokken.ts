@@ -1,7 +1,9 @@
-const SECRET_KEY = require('../config')
-const jwt = require('jsonwebtoken')
+import SECRET_KEY from "../config"
+import jwt from 'jsonwebtoken'
+import {IUser} from "../models/Users";
 
-const generateToken = (user) => {
+
+const generateToken = (user: IUser) => {
     return jwt.sign(
         {
             id: user.id,
@@ -11,5 +13,5 @@ const generateToken = (user) => {
         , SECRET_KEY, {expiresIn: '1h'})
 }
 
-module.exports = generateToken
+export default generateToken
 

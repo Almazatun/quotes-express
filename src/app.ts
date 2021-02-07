@@ -1,12 +1,10 @@
-//import dependencies
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+import express from 'express'
+import mongoose from 'mongoose'
+import bodyParser from 'body-parser'
+import cors from 'cors'
+import Posts from './routes/Posts'
+import Users from './routes/Users'
 
-//import files
-const Posts = require('./routes/Posts')
-const Users = require('./routes/Users')
 
 //Create express app
 const app = express()
@@ -26,7 +24,7 @@ const db = mongoose.connection;
 //CONNECTION EVENTS
 db.once('open', () => {
     console.log("Connected to MongoDB database...")
-}).on("error", (err) => {
+}).on("error", (err: string) => {
     console.log(err);
 })
 

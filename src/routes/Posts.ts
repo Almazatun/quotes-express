@@ -1,8 +1,10 @@
-const express = require('express')
+import express from 'express'
+import Post from '../models/Posts'
+import verifyUserToken from "../helpers/verifyUserToken";
+import PostsController from "../controller/Posts";
+
+
 const router = express.Router()
-const Post = require('../models/Posts')
-const PostsController = require('../controller/Posts')
-const verifyUserToken = require('../helpers/verifyUserToken')
 
 //Get all routes
 router.get('/' , PostsController.getPosts)
@@ -17,7 +19,7 @@ router.get('/get/:id',  PostsController.getSpecificPost)
 router.delete('/delete/:id', verifyUserToken,  PostsController.deletePost)
 
 //Update a quote
-router.patch('/update/:id', verifyUserToken,  PostsController.deletePost)
+router.patch('/update/:id', verifyUserToken,  PostsController.updatePost)
 
 //Get random quote
 router.get('/random', async (req, res) => {
@@ -31,4 +33,4 @@ router.get('/random', async (req, res) => {
     })
 })
 
-module.exports = router
+export default router

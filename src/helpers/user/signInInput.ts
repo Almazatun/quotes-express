@@ -1,7 +1,8 @@
-const validators = require('../../utils/validators')
+import {NextFunction, Request, Response} from "express";
+import validators from "../../utils/validators";
 
 //Sign In middleware
-const signInInput = (req, res, next) => {
+const signInInput = (req: Request, res: Response, next: NextFunction) => {
     const {userName, password} = req.body
     const {errors, valid} = validators.validationRulesSignIn(userName, password)
 
@@ -15,4 +16,4 @@ const signInInput = (req, res, next) => {
     }
 }
 
-module.exports = signInInput
+export default signInInput

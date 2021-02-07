@@ -1,11 +1,30 @@
-const emailRegExp = require('./other/emailRegularExpressions')
+import emailRegExp from './other/emailRegularExpressions'
 
-const validationRules = (userName, email, password, confirmPassword) => {
+interface IErrors {
+    userName?: string
+    email?: string
+    password?: string
+    confirmPassword?: string
+}
 
-    const errors = {}
+type ErrorsSignIn = Pick<IErrors, "userName" | "password">
+
+interface IValidatorsReturn {
+    errors: null | IErrors | ErrorsSignIn,
+    valid: boolean
+}
+
+export const validationRules = (
+    userName: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+): IValidatorsReturn => {
+
+    const errors: IErrors = {}
     //userName
     if (userName.trim() === '') {
-        errors.username = 'Username must not be empty 🤬';
+        errors.userName = 'Username must not be empty 🤬';
     }
     //email
     if (!email) {
@@ -33,8 +52,8 @@ const validationRules = (userName, email, password, confirmPassword) => {
     }
 }
 
-const validationRulesSignIn = (userName, password) => {
-    const errors = {}
+export const validationRulesSignIn = (userName: string, password: string):IValidatorsReturn  => {
+    const errors: ErrorsSignIn = {}
     //userName
     if (userName.trim() === '') {
         errors.userName = 'User name can not be empty 🤬'
@@ -45,13 +64,13 @@ const validationRulesSignIn = (userName, password) => {
     }
 
     return {
-
         errors,
         valid: Object.keys(errors).length < 1
     }
 }
 
-module.exports = {
+
+export default {
     validationRules,
     validationRulesSignIn
 }

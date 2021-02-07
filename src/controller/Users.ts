@@ -1,9 +1,11 @@
-const Users = require('../models/Users')
-const bcrypt = require('bcrypt')
-const generateToken = require('../utils/generateTokken')
+import {Request, Response} from "express";
+import Users from '../models/Users'
+import bcrypt from 'bcrypt'
+import generateToken from '../utils/generateTokken'
 
-class UsersController {
-    async createUser(req, res) {
+//Users Controller class
+class UsersCTR  {
+    async createUser(req: Request, res: Response) {
         const {userName, email, password} = req.body
         try {
             // Make sure the user does not already exist in database storage
@@ -51,12 +53,12 @@ class UsersController {
         }
     }
 
-    async getUsers(req, res) {
+    async getUsers(req: Request, res: Response) {
         const users = await Users.find()
         res.json(users)
     }
 
-    async SignIn(req, res) {
+    async SignIn(req: Request, res: Response) {
         const {userName, password} = req.body
 
         //Make sure the user existed in the database
@@ -97,7 +99,7 @@ class UsersController {
         }
     }
 
-    async deleteUser(req, res) {
+    async deleteUser(req: Request, res: Response) {
         try {
             const user = await Users.findByIdAndDelete({_id: req.params.id})
             if (user) {
@@ -117,5 +119,5 @@ class UsersController {
         }
     }
 }
-
-module.exports = new UsersController()
+const UsersController = new UsersCTR
+export default UsersController
