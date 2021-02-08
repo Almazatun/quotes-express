@@ -30,9 +30,11 @@ db.once('open', () => {
 
 //Middleware
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({
+    credentials: true,
+}))
 
-//Routes || Middleware
+//Routes
 app.use('/posts', Posts)
 app.use('/users', Users)
 
