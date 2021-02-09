@@ -3,6 +3,8 @@ import {API_AUTH, LogInArguments} from "../api/api";
 import {AppDispatchType, AppRootStateType} from "../reducer";
 import {ValidationErrors} from "../components/Posts/reducer";
 import {AuthContextState, TOKEN} from "./AuthContext";
+import {handleAsyncServerError} from "../utils/handleAsyncServerError";
+import {applicationActions} from "../features/Application";
 
 
 export const initialState: AuthState  = AuthContextState
@@ -19,16 +21,17 @@ export const signInTC = createAsyncThunk<
     >
 ('Authentication/signInTC', async (param, thunkAPI) => {
 
+    thunkAPI.dispatch(applicationActions.setAppStatus({status: 'loading'}))
     //If use try catch statement mark make sure that typed catch return type
     try {
         const res = await API_AUTH.logIn(param)
-
         //Saving token of the user in the Localstorage
         localStorage.setItem(TOKEN.IS_TOKEN, res.token)
 
+        thunkAPI.dispatch(applicationActions.setAppStatus({status: 'success'}))
         return { user: res }
     } catch (error) {
-        return thunkAPI.rejectWithValue({errorMessage: error.message})
+        return  handleAsyncServerError(error.response.data, thunkAPI)
     }
 })
 
