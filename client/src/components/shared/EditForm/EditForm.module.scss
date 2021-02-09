@@ -1,39 +1,21 @@
+@import "../../LogIn/LogIn.module";
+
 .box {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 200px;
+  height: auto;
   width: 90%;
-  border: 1px solid red;
   border-radius: 10px;
   margin: auto;
   .box_top {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    margin: 0 0 10px 0;
     button {
-      padding: 6px 10px;
-      height: 30px;
-      font-size: 16px;
-      &:hover {
-        color: red;
-      }
+      @include Button();
+      width: auto;
+      background: #ec677d;
     }
+    margin-left: auto;
+    margin-bottom: 20px;
   }
-  textarea {
-    margin-bottom: 10px;
-    width: 90%;
-    height: 30%;
-    resize: vertical;
-  }
-}
-
-
-.boxBtn {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 175px;
 }

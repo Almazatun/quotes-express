@@ -5,7 +5,6 @@ import style from './ModalCard.module.scss'
 interface ModalCardProps {
     show: boolean
     closeModal: () => void
-    onChangeTitle: (title: string) => void;
 }
 
 interface ModalCardState {
@@ -20,12 +19,11 @@ export class ModalCard extends Component<ModalCardProps, ModalCardState> {
             showModalCard: false
         }
         //Events
-        this.closeModalAndClear = this.closeModalAndClear.bind(this)
+        this.closeModal = this.closeModal.bind(this)
     }
 
-    closeModalAndClear() {
+    closeModal() {
         this.props.closeModal()
-        this.props.onChangeTitle('')
         this.setState({
             showModalCard: false
         })
@@ -42,7 +40,7 @@ export class ModalCard extends Component<ModalCardProps, ModalCardState> {
     render() {
         return (
             <React.Fragment>
-                <Background show={this.state.showModalCard} clicked={this.closeModalAndClear}/>
+                <Background show={this.state.showModalCard} clicked={this.closeModal}/>
                 <div
                     className={style.modal_card}
                     style={{

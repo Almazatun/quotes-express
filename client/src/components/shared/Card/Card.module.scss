@@ -4,7 +4,7 @@ $borderRadius: 10px;
 
 .card_box {
   text-align: left;
-  height: 100px;
+  min-height: 100px;
   width: 700px;
   border-radius: $borderRadius;
   padding: 1rem;

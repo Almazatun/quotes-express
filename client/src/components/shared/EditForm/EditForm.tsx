@@ -1,20 +1,24 @@
-import React, {ChangeEvent, Component} from 'react'
+import React, {Component} from 'react'
 import style from './EditForm.module.scss'
+import {ChangeEventType} from "../../containers/WritePostContainer/WritePostContainer";
+import {WritePost} from "../../WritePost/WritePost";
 
 interface EditFormProps {
-    cancelHandler: any
-    editContent: any
-    title: string
+    cancelHandler: () => void
+    onChangeHandler: any
+    title: string,
+    postBody: string,
+    submit: () => void,
 }
 
 export class EditForm extends Component<EditFormProps, {}> {
     constructor(props: EditFormProps) {
         super(props);
-        this.onChangeTitle = this.onChangeTitle.bind(this)
+        this.onChange = this.onChange.bind(this)
     }
 
-    onChangeTitle(event: ChangeEvent<HTMLTextAreaElement>) {
-        this.props.editContent(event.currentTarget.value)
+    onChange(event: ChangeEventType) {
+        this.props.onChangeHandler(event)
     }
 
     render() {
@@ -22,16 +26,16 @@ export class EditForm extends Component<EditFormProps, {}> {
             <div className={style.box}>
                 <div className={style.box_top}>
                     <button onClick={this.props.cancelHandler}>
-                        Cancel
+                        {'❌'}
                     </button>
                 </div>
-                <textarea
-                    value={this.props.title}
-                    onChange={this.onChangeTitle}
+                <WritePost
+                    onChangeFields={this.onChange}
+                    newPostTitle={this.props.title}
+                    postBody={this.props.postBody}
+                    handleSubmit={this.props.submit}
+                    errors={[]}
                 />
-                <div className={style.boxBtn}>
-                    <button onClick={this.props.editContent}>Edit</button>
-                </div>
             </div>
         );
     }

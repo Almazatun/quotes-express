@@ -1,20 +1,11 @@
 .modal_card {
   position: fixed;
   z-index: 500;
-  background-color: #fff;
-  border-radius: 10px;
-  width: 40%;
-  border: 1px solid #ccc;
-  padding: 16px;
-  left: 15%;
   top: 30%;
+  height: auto;
   box-sizing: border-box;
   transition: all 0.3s ease-out;
-}
-
-@media (min-width: 600px) {
-  .modal_card {
-    width: 400px;
-    left: calc(50% - 200px);
-  }
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
 }
