@@ -1,6 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {API, ServerPost} from "../../api/api";
+import {API, NewPostBody, ServerPost} from "../../api/api";
 import {AppDispatchType, AppRootStateType, RequestStatus} from "../../reducer";
+import {applicationActions} from "../../features/Application";
+import {handleAsyncServerError} from "../../utils/handleAsyncServerError";
 
 //AsyncThunks
 export const fetchPostsTC = createAsyncThunk<
@@ -8,61 +10,86 @@ export const fetchPostsTC = createAsyncThunk<
     undefined,                    //What arguments take createAsyncThunk feature
     {
         dispatch: AppDispatchType,
-        state: AppRootStateType ,
+        state: AppRootStateType,
         rejectValue: ValidationErrors
-    }
-    >
+    }>
 ('Posts/fetchPosts', async (param, thunkAPI) => {
+
+    thunkAPI.dispatch(applicationActions.setAppStatus({status: 'loading'}))
     //If use try catch statement mark need to setup catch return type
     try {
         const res = await API.getAllPosts()
+        thunkAPI.dispatch(applicationActions.setAppStatus({status: 'success'}))
         return {posts: res}
     } catch (error) {
-        return thunkAPI.rejectWithValue({errorMessage: error.message})
+        return handleAsyncServerError(error.response.data, thunkAPI)
     }
 })
 
 export const createPostTC = createAsyncThunk<
     ServerPost,
-    string,
+    NewPostBody,
     {
         dispatch: AppDispatchType,
         state: AppRootStateType,
         rejectValue: ValidationErrors
-    }
-    >
-('Posts/createPost', async (postBody, thunkAPI) => {
+    }>
+('Posts/createPost', async (newPostBody, thunkAPI) => {
+    thunkAPI.dispatch(applicationActions.setAppStatus({status: 'loading'}))
     //If use try catch statement mark need to setup catch return type
-    try{
-        const res = await API.createPost(postBody)
+    try {
+        const res = await API.createPost(newPostBody)
+        thunkAPI.dispatch(applicationActions.setAppStatus({status: 'success'}))
         return res
-    } catch (error){
-        return thunkAPI.rejectWithValue({errorMessage: error.message})
+    } catch (error) {
+        return handleAsyncServerError(error.response.data, thunkAPI)
     }
-
 })
 
 export const deletePostTC = createAsyncThunk<
     { postId: string | bigint },
     { postId: string },
-    { dispatch: AppDispatchType, state: AppRootStateType,  rejectValue: ValidationErrors}
-    >
+    { dispatch: AppDispatchType, state: AppRootStateType, rejectValue: ValidationErrors }>
 ('Posts/deletePost', async (param, thunkAPI) => {
-
+    thunkAPI.dispatch(applicationActions.setAppStatus({status: 'loading'}))
     //If use try catch statement mark make sure that typed catch return type
     try {
         const res = await API.deletePost(param.postId)
+        thunkAPI.dispatch(applicationActions.setAppStatus({status: 'success'}))
         return {postId: res._id}
     } catch (error) {
-        return thunkAPI.rejectWithValue({errorMessage: error.message})
+        return handleAsyncServerError(error.response.data, thunkAPI)
     }
+})
 
+export const updatePostTC = createAsyncThunk<
+    ServerPost,
+    {
+        postId: string
+        updatePostBody: NewPostBody
+    },
+    {
+        dispatch: AppDispatchType,
+        state: AppRootStateType,
+        rejectValue: ValidationErrors
+    }>
+('Posts/updatePost', async (params, thunkAPI) => {
+    thunkAPI.dispatch(applicationActions.setAppStatus({status: 'loading'}))
+    //If use try catch statement mark need to setup catch return type
+    try {
+        const res = await API.updatePost(params.postId, params.updatePostBody)
+        thunkAPI.dispatch(applicationActions.setAppStatus({status: 'success'}))
+        return res
+    } catch (error) {
+        return handleAsyncServerError(error.response.data, thunkAPI)
+    }
 })
 
 export const asyncActions = {
     fetchPostsTC,
     createPostTC,
-    deletePostTC
+    deletePostTC,
+    updatePostTC
 }
 
 const initialState: PostsState = {
@@ -74,7 +101,7 @@ export const slice = createSlice({
     name: 'Posts',
     initialState: initialState,
     reducers: {
-        changePostRegStatus(state, action: PayloadAction<{_id: string, status: RequestStatus}>) {
+        changePostRegStatus(state, action: PayloadAction<{ _id: string, status: RequestStatus }>) {
             const index = state.posts.findIndex(post => post._id === action.payload._id)
             state.posts[index].reqStatus = action.payload.status
         }
@@ -87,7 +114,7 @@ export const slice = createSlice({
                 })
             })
             .addCase(asyncActions.createPostTC.fulfilled, (state, action) => {
-                const {postTitle, body, userName, createdAt, _id}  =  action.payload
+                const {postTitle, body, userName, createdAt, _id} = action.payload
                 const newPost: Post = {
                     _id: _id,
                     body: body,
@@ -97,7 +124,7 @@ export const slice = createSlice({
                     __v: 0,
                     reqStatus: "idle"
                 }
-                state.posts.unshift(newPost)
+                state.posts = [...state.posts, newPost]
             })
             .addCase(asyncActions.deletePostTC.fulfilled, (state, action) => {
                 const index = state.posts.findIndex(post => post._id === action.payload.postId)
@@ -107,6 +134,14 @@ export const slice = createSlice({
             })
             .addCase(asyncActions.fetchPostsTC.rejected, (state, action) => {
                 state.errors = action.payload?.errorMessage
+            })
+            .addCase(asyncActions.updatePostTC.fulfilled, (state, action) => {
+                const index = state.posts.findIndex(post => post._id === action.payload._id)
+                state.posts[index] = {
+                    ...state.posts[index],
+                    postTitle: action.payload.postTitle,
+                    body: action.payload.body
+                }
             })
     }
 })

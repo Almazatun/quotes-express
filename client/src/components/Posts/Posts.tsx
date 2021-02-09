@@ -20,6 +20,7 @@ export class Posts extends Component<PostsProps, {}> {
                           userName={post.userName}
                           body={post.body}
                           createAt={post.createdAt}
+                          postTitle={post.postTitle}
                     />
                 </Fragment>
             )
