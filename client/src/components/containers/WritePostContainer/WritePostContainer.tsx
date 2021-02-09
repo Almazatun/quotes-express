@@ -4,11 +4,14 @@ import {newPostValidators} from "../../../utils/validators";
 import {postsActions} from "../../Posts";
 import {connect, ConnectedProps} from "react-redux";
 import {WithAuthRedirect} from "../../../hoc/WithAuthRedirect/WithAuthRedirect";
+import {Redirect} from "react-router-dom";
+import {PAGES} from "../../Navbar/Navbar";
 
 interface WritePostContainerState {
     postTitle: string
     postBody: string
-    errors: Array<string>
+    errors: Array<string>,
+    redirect: boolean
 }
 
 export type ChangeEventType = ChangeEvent<HTMLInputElement & HTMLTextAreaElement>
@@ -19,7 +22,8 @@ export class WritePostContainer extends Component<TProps, WritePostContainerStat
         this.state = {
             postTitle: '',
             postBody: '',
-            errors: []
+            errors: [],
+            redirect: false
         }
 
         this.onChangeWritePostContainer = this.onChangeWritePostContainer.bind(this)
@@ -28,14 +32,16 @@ export class WritePostContainer extends Component<TProps, WritePostContainerStat
 
     onChangeWritePostContainer(event: ChangeEventType) {
         event.persist();
-        let value = event.currentTarget.value;
+        let value = event.currentTarget.value.trim() !== '' ? event.currentTarget.value : '';
         if (event.currentTarget.dataset.field) {
             const trigger: string = event.currentTarget.dataset.field;
             if (trigger === "postTitle") {
-                this.setState({
-                    ...this.state,
-                    postTitle: value
-                })
+                if (value.length <= 20) {
+                    this.setState({
+                        ...this.state,
+                        postTitle: value
+                    })
+                }
             } else if (trigger === "postBody") {
                 this.setState({
                     ...this.state,
@@ -64,17 +70,27 @@ export class WritePostContainer extends Component<TProps, WritePostContainerStat
             }, 5000)
         }
         if (valid) {
-            //this.props.createPostTC()
+            const {postTitle, postBody} = this.state
+            this.props.createPostTC({postTitle, body: postBody})
             this.setState({
                 ...this.state,
                 postTitle: '',
-                postBody: ''
+                postBody: '',
+                redirect: true
             })
+            setTimeout(() => {
+                this.setState({
+                    ...this.state,
+                  redirect: false
+                })
+            }, 2000)
         }
     }
 
     render() {
-        console.log(this.state)
+        if (this.state.redirect) {
+            return <Redirect to={PAGES.POSTS} />
+        }
         return <WritePost
             newPostTitle={this.state.postTitle}
             postBody={this.state.postBody}

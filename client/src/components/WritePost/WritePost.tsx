@@ -27,7 +27,7 @@ export class WritePost extends Component<WritePostProps, {}> {
                             <input type="text"
                                    value={newPostTitle}
                                    data-field={"postTitle"}
-                                   placeholder={'👉 New post title'}
+                                   placeholder={'👉 Post title'}
                                    onChange={onChangeFields}
                             />
                         </div>
