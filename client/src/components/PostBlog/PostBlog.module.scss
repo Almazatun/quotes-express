@@ -25,6 +25,24 @@
       text-align: center;
     }
 
+    .post_blog_update_btns {
+      display: flex;
+      justify-content: flex-end;
+      .delete_btn, .edit_btn  {
+        @include Button();
+        width: auto;
+        margin: 0 5px;
+      }
+      .edit_btn {
+        @include Button();
+        width: auto;
+        background: #00ffb2;
+      }
+      .delete_btn {
+        background: #ec677d;
+      }
+    }
+
     .post_body {
       width: 100%;
       word-break: break-all;
