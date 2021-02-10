@@ -3,8 +3,9 @@ import mongoose, {Schema, Document} from 'mongoose'
 export interface IPost extends Document {
     _id: Schema.Types.ObjectId
     postTitle: string
-    userName: string,
-    createdAt: string,
+    body: string
+    userName: string
+    createdAt: string
     user: string
 }
 
