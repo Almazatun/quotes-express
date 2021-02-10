@@ -23,12 +23,13 @@ const authUser = (context:Request): {errors: IAuthErrors | null, userData: IsUse
     const errors: IAuthErrors = {}
     let isUser: IsUser = {}
     const authHeader = context.headers["authorization"];
+    const secretKey = process.env.SECRET_KEY || SECRET_KEY
 
     if (authHeader) {
         const token =  authHeader.split("Bearer ")[1]
         if (token) {
             try {
-                isUser = jwt.verify(token, SECRET_KEY)
+                isUser = jwt.verify(token, secretKey)
             } catch (error) {
                 errors.AuthenticationError = 'Invalid / Expired token' //token inactivity
             }
