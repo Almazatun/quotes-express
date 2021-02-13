@@ -1,5 +1,7 @@
 import React, {ChangeEvent, Component, FormEvent} from 'react'
 import style from './LogIn.module.scss'
+import {RequestStatus} from "../../reducer";
+import {Button} from "../shared/Button/Button";
 
 interface LogInProps {
     userName: string
@@ -7,6 +9,7 @@ interface LogInProps {
     errors: Array<string>
     onChange: (event: ChangeEvent<HTMLInputElement>) => void
     submit: (event: FormEvent) => void
+    loading: RequestStatus
 }
 
 
@@ -46,7 +49,10 @@ export class LogIn extends Component<LogInProps, {}> {
                         </label>
                     </div>
                     <div className={style.form_bottom}>
-                        <button>Log In</button>
+                        <Button title={'Log In'}
+                                status={this.props.loading}
+                                disabled={this.props.loading === "loading"}
+                        />
                     </div>
                     {this.props.errors && (
                         <div className={errorStyle}>

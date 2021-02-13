@@ -64,9 +64,6 @@ $borderRadius: 8px;
     .form_bottom {
       width: 100%;
       margin: auto;
-      button {
-       @include Button();
-      }
     }
     .errors {
      @include Errors();

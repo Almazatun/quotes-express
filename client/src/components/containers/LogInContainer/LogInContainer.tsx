@@ -9,6 +9,8 @@ import {selectIsAuth, selectUser} from "./Selectors";
 import {AuthState} from "../../../context/reducer";
 import {PAGES} from "../../Navbar/Navbar";
 import {Redirect} from 'react-router-dom';
+import {ApplicationState} from "../../../features/Application/reducer";
+import {selectAppError, selectAppStatus} from "../ContentContainer/Selectors";
 
 interface LogInContainerState {
     userName: string,
@@ -105,15 +107,18 @@ class LogInContainer extends Component<TProps, LogInContainerState> {
             errors={this.state.errors}
             onChange={this.onChangeLoginContainerState}
             submit={this.submit}
+            loading={this.props.status}
         />
     }
 }
 
 //Connect
-const mapStateToProps = (state: AppRootStateType): AuthState => {
+const mapStateToProps = (state: AppRootStateType): AuthState & ApplicationState => {
     return {
         user: selectUser(state),
         isAuth: selectIsAuth(state),
+        status: selectAppStatus(state),
+        errors: selectAppError(state),
     };
 };
 
