@@ -1,0 +1,6 @@
+@import "src/components/LogIn/LogIn.module";
+
+.btn {
+  @include Button();
+
+}
