@@ -16,12 +16,30 @@ https://github.com/Almazatun/blog-posts-MERN.git
 yarn install
 ```
 
+## Routes
+
+### Plural routes
+```
+GET /posts
+GET /posts/:id
+DELETE posts/:id
+PATCH posts/:id
+```
+
+## API
+Returns middlewares used by Blog-posts Server
+* options
+  * `bodyParser` enable body-parser middleware
+  * `Cors` enable CORS ( `credentials: true, origin: process.env.HOST || http://localhost:3000 `)
+  * `Express`  enable express middleware
+  * `Mongoose` provide to work with MongoDB database ( connection configuration: `{useNewUrlParser: true, useUnifiedTopology: true}` )
+
 ## Usage
 
 You can start the server with yarn run dev then navigate to http://localhost:3010.
 
 ## 💡 Features
-* App Register
+* Ability to register in the application
 * Login
 * Logout - client feature
 * JSON Web Token
@@ -35,13 +53,13 @@ You can start the server with yarn run dev then navigate to http://localhost:301
 
 ## Packages
 This project is made up of 2 packages that share code using Yarn Workspaces.
-* web 👁 🏗 (React + Typescript + Redux-Toolkit)
-* server 🧬 🏗 (MongoDB database + Express + NodeJS + Typescript)
+* web 👁 🏗 ( React + Typescript + Redux-Toolkit + React-Router-Dom + React-Redux )
+* server 🧬 🏗 ( MongoDB database + Express + NodeJS + Typescript + Mongoose)
 
 ## ▶️  Web Demo
 ![front](/src/public/prevVue.gif/)
 
-### Usage Web | Front 👨‍🚀
-Fake account on the App 
+### Usage Web Application 👨‍🚀
+Fake account on the Web Application 
  * userName: person
  * password: 2223331
